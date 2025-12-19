@@ -1,90 +1,104 @@
+public class Main
+{
+	public static void main(String[] args) {
+		DoublyLL list = new DoublyLL();
+		list.insertElement(10);
+		list.insertElement(20);
+		list.display();
+		System.out.println();
+		list.insertElement(30);
+		list.insertElement(40);
+		list.display();
+		System.out.println();
+		list.printReverse();
+		list.insertAtMiddle(25,20);
+		System.out.println();
+		list.display();
+		System.out.println();
+		list.insertAtBeginning(5);
+		list.display();
+		System.out.println();
+		list.insertAtEnd(50);
+		list.display();
+	}
+}
+
 class Node{
     int data;
-    Node next;
     Node prev;
+    Node next;
     
-    public Node(int val){
-        data = val;
-        next = prev = null;
+    public Node(int data){
+        this.data = data;
+        prev = null;
+        next = null;
     }
 }
 
 class DoublyLL{
-    Node head;
-    Node tail;
-    
-    public DoublyLL(){
-        head = tail = null;
-    }
-    
-    public void push_back(int val){
-        Node newNode = new Node(val);
+    Node head,tail;
+    public void insertElement(int data){
+        Node node = new Node(data);
         if(head==null){
-            head = tail = newNode;
-        }else{
-            newNode.prev = tail;
-            tail.next = newNode;
-            tail = newNode;
-        }
-    }
-    
-    public void push_front(int val){
-        Node newNode = new Node(val);
-        if(head==null){
-            head=tail=newNode;
-        }else{
-           newNode.next = head;
-           head.prev = newNode;
-           head = newNode;
-        }
-    }
-    
-    public void pop_front(){
-        if(head==null){
-            System.out.println("List is empty");
+            head = tail = node;
             return;
         }
-        Node temp = head;
-        head = head.next;
-        if(head!=null){
-            head.prev = null;
-        }
-        temp.next = null;
+        tail.next = node;
+        node.prev = tail;
+        tail = node;
     }
     
-    public void pop_back(){
-        Node temp = tail;
-        tail = tail.prev;
-        if(tail!=null){
-            tail.next = null;
-        }
-        temp.prev = null;
-    }
-    
-    public void printLL(){
+    public void display(){
         Node temp = head;
+        System.out.print("null<-->");
         while(temp!=null){
-            System.out.print(temp.data+"<=>");
-            temp=temp.next;
+            System.out.print(temp.data+"<-->");
+            temp = temp.next;
         }
-        System.out.println("null");
+        System.out.print("null");
     }
-}
-
-class Main{
-    public static void main(String[] args){
-        DoublyLL dll = new DoublyLL();
-        
-        dll.push_front(1);
-        dll.push_front(2);
-        dll.push_front(3);
-        dll.printLL();
-        
-        dll.pop_front();
-        dll.printLL();
-
-        dll.push_back(1);
-        dll.push_back(2);
-        dll.printLL();
+    
+    public void printReverse(){
+        Node temp = tail;
+        System.out.print("null");
+        while(temp!=null){
+            System.out.print("<-->"+temp.data);
+            temp = temp.prev;
+        }
+        System.out.print("<-->null");
+    }
+    
+    public void insertAtMiddle(int data, int index){
+        Node node = new Node(data);
+        Node temp = head;
+      
+        while(temp!=null){
+            if(temp.data==index){
+                Node nextTemp = temp.next;
+                temp.next = node;
+                node.prev = temp;
+                node.next = nextTemp;
+                if(nextTemp!=null){
+                    nextTemp.prev = node;
+                }else{
+                    tail = node;
+                }
+            }
+            temp = temp.next;
+        }
+    }
+    
+    public void insertAtBeginning(int data){
+        Node node = new Node(data);
+        node.next = head;
+        head.prev = node;
+        head = node;
+    }
+    
+    public void insertAtEnd(int data){
+        Node node = new Node(data);
+        tail.next = node;
+        node.prev = tail;
+        tail = node;
     }
 }
