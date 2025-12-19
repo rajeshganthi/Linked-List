@@ -20,6 +20,10 @@ public class Main
 		System.out.println();
 		list.insertAtEnd(50);
 		list.display();
+		list.deleteNode(30);
+		System.out.println();
+		list.display();
+		
 	}
 }
 
@@ -50,9 +54,9 @@ class DoublyLL{
     
     public void display(){
         Node temp = head;
-        System.out.print("null<-->");
+        System.out.print("null-->");
         while(temp!=null){
-            System.out.print(temp.data+"<-->");
+            System.out.print(temp.data+"-->");
             temp = temp.next;
         }
         System.out.print("null");
@@ -62,10 +66,10 @@ class DoublyLL{
         Node temp = tail;
         System.out.print("null");
         while(temp!=null){
-            System.out.print("<-->"+temp.data);
+            System.out.print("<--"+temp.data);
             temp = temp.prev;
         }
-        System.out.print("<-->null");
+        System.out.print("<--null");
     }
     
     public void insertAtMiddle(int data, int index){
@@ -100,5 +104,19 @@ class DoublyLL{
         tail.next = node;
         node.prev = tail;
         tail = node;
+    }
+    
+    public void deleteNode(int data){
+        Node temp = head;
+        while(temp!=null){
+            if(temp.data == data){
+                Node prevNode = temp.prev;
+                temp = temp.next;
+                prevNode.next = temp;
+                temp.prev = prevNode;
+                break;
+            }
+            temp = temp.next;
+        }
     }
 }
